@@ -1,0 +1,162 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(233, 233, 233);
+}
+
+h2, h3 {
+  text-transform: uppercase;
+  margin-bottom: 0.5em;
+}
+
+h4 {
+  margin-top: 0.5em;
+  color: rgb(92, 92, 92);
+}
+
+.btn {
+  display: block;
+  text-transform: uppercase;
+  background-color: rgb(124, 248, 221);
+  padding: 0.5em 1em;
+  color: rgb(49, 49, 49);
+  border: 0;
+  box-shadow: 3px 2px 1px rgba(0, 0, 0, 0.3);
+  font-size: 1em;
+}
+
+.btn:hover {
+  background-color: rgb(179, 250, 233);
+}
+
+.cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.card {
+  background-color: #fff;
+  width: 20em;
+  display: flex;
+  flex-direction: column;
+  margin: 1em 1em;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.card img {
+  -webkit-filter: grayscale(100%) brightness(120%) sepia(100%) hue-rotate(70deg) saturate(100%) contrast(0.8);
+  filter: grayscale(100%) brightness(120%) sepia(100%) hue-rotate(70deg) saturate(100%) contrast(0.8);
+}
+.card-body {
+  padding: 0.8em;
+}
+
+.card-footer {
+  margin-bottom: 0.8em;
+}
+
+.center {
+  display: block;
+  margin: 0 auto;
+}
+.modal {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 888;
+}
+
+.modal__body {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.modal__content {
+  width: 900px;
+  max-width: 90%;
+  top: 1em;
+  background-color: #fff;
+  position: relative;
+  margin: 0 auto;
+  z-index: 999;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.5);
+}
+
+.modal__details {
+  margin-top: 200px;
+  padding: 0 1em;
+}
+
+.modal__side {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 30%;
+}
+
+.modal__pic {
+  flex-basis: 69%;
+}
+
+.modal__pic img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.modal__header {
+  padding: 0.5em 1em; 
+  background-color: rgb(233, 233, 233);
+}
+
+.modal__footer {
+  padding: 0.5em 1em;
+  background-color: rgb(77, 175, 152);
+}
+
+.map {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.nav {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  background-color: rgb(77, 175, 152);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.nav__item {
+  margin: 1em 1em;
+}
+
+.nav__link, .nav__link:visited, .nav__link:active {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.nav__link:hover {
+  text-decoration: underline;
+}
+
+select {
+  padding: 0.5em;
+  font-size: 1em;
+}

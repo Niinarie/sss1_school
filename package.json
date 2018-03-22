@@ -1,0 +1,19 @@
+{
+  "name": "sss1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src -d lib"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.19.0",
+    "eslint-config-google": "^0.9.1"
+  },
+  "author": "",
+  "license": "ISC"
+}
