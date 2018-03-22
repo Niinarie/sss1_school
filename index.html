@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>SSS1</title>
+  <link rel="stylesheet" type="text/css" href="lib/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+
+<body>
+  <ul class="nav">
+    <li class="nav__item">
+      <a class="nav__link active" href="#">Cat collection</a>
+    </li>
+    <li class="nav__item">
+      <select id="categorySelect">
+        <option value="All">All categories</option>
+      </select>
+    </li>
+  </ul>
+
+  <div id="cards" class="cards"></div>
+
+  <!-- MODAL -->
+  <div class="modal fade" id="catModal">
+    <div class="modal__content">
+      <div class="modal__header">
+        <h3 class="modal__title" id="modalTitle">Modal title</h3>
+        <h4 id="modalDate"></h4>
+      </div>
+      <div class="modal__body">
+        <div class="modal__pic">
+          <img src="" id="modalPic" alt="medium picture" />
+        </div>
+        <div class="modal__side">
+            <iframe id="mapContainer" class="map" width="100%" height="200" frameborder="0" style="border:0" src=""></iframe>
+            <div id="modalDetails" class="modal__details"></div>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button type="button" id="closeButton" class="btn center">Close</button>
+      </div>
+    </div>
+
+  </div>
+  <script src="./lib/moment.js"></script>
+  <script src="./lib/main.js"></script>
+</body>
+
+</html>
