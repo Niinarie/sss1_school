@@ -1,5 +1,5 @@
 'use strict';
-const apiKey = 'AIzaSyBcgiaMjSFZHfSQkET1QYXH_9ynJvskptY';
+const apiKey = '';
 
 window.onload = () => {
   const container = document.getElementById('cards');
