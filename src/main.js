@@ -7,7 +7,7 @@ window.onload = () => {
   let pictureData = [];
 
   // create select menu for categories
-  function createSelect(array) {
+  const createSelect = (array) => {
     const select = document.getElementById('categorySelect');
 
     // get categories
@@ -30,17 +30,17 @@ window.onload = () => {
       const category = select.options[select.selectedIndex].value;
       filterByCategory(category, array);
     });
-  }
+  };
 
-  function filterByCategory(cat, array) {
+  const filterByCategory = (cat, array) => {
     container.innerHTML = '';
     if (cat !== 'All') {
      array = array.filter((item) => item.category == cat);
     }
     fillCards(array);
-  }
+  };
 
-  function fillCards(array) {
+  const fillCards = (array) => {
     array.forEach((el) => {
       const element = document.createElement('div');
       element.classList.add('card');
@@ -77,7 +77,7 @@ window.onload = () => {
       element.appendChild(footer);
       container.appendChild(element);
     });
-  }
+  };
 
   // modal stuff
   const modal = document.getElementById('catModal');
@@ -86,7 +86,7 @@ window.onload = () => {
   const modalDate = document.getElementById('modalDate');
   const modalDetails = document.getElementById('modalDetails');
 
-  function displayModal(id) {
+  const displayModal = (id) => {
     const cat = catData(id);
     modalTitle.innerHTML = cat.title;
     modalPic.src = cat.image;
@@ -94,12 +94,12 @@ window.onload = () => {
     modalDetails.innerHTML = `<h4>Details:</h4><p>${cat.details}</p>`;
     mapContainer.src = `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${cat.coordinates.lat},${cat.coordinates.lng}`;
     modal.style.display = 'block';
-  }
+  };
 
-  function catData(id) {
+  const catData = (id) => {
     const cat = pictureData.filter((pic) => pic.id == id);
     return cat[0];
-  }
+  };
 
   document.getElementById('closeButton').addEventListener('click', (evt) => {
     modal.style.display = 'none';
