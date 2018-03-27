@@ -10,11 +10,7 @@ module.exports = (app) => {
 
   // Multer for image upload
   const storage = MyStorage({
-    destination: (req, file, cb) => cb(null, 'uploads'),
-    filename: (req, file, cb) => {
-      const name = 'Cat-' + Date.now() + path.extname(file.originalname);
-      cb(null, name);
-    },
+    destination: (req, file, cb) => cb(null, 'uploads')
   });
   const upload = multer({ storage: storage });
 

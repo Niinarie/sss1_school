@@ -46,7 +46,7 @@ const fillCards = (array) => {
     element.classList.add('card');
 
     const picture = document.createElement('img');
-    picture.src = el.thumbnail;
+    picture.src = 'http://localhost:3000/'+el.thumbnail;
     picture.classList.add('card-img-top');
 
     const body = document.createElement('div');
@@ -72,12 +72,12 @@ const fillCards = (array) => {
     element.appendChild(body);
     element.appendChild(footer);
 
-    // Add event listener for details view -button
-    viewButton.addEventListener('click', (evt) => {
+    container.appendChild(element);
+
+     // Add event listener for details view -button
+     viewButton.addEventListener('click', (evt) => {
       displayModal(el.id);
     });
-
-    container.appendChild(element);
   });
 };
 
@@ -92,10 +92,12 @@ const modalDetails = document.getElementById('modalDetails');
 const displayModal = (id) => {
   const cat = catData(id);
   modalTitle.innerHTML = cat.title;
-  modalPic.src = cat.image;
+  modalPic.src = 'http://localhost:3000/' + cat.image;
   modalDate.innerHTML = moment(cat.time).format('MMM Do YYYY');
   modalDetails.innerHTML = `<h4>Details:</h4><p>${cat.details}</p>`;
-  mapContainer.src = `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${cat.coordinates.lat},${cat.coordinates.lng}`;
+  if (cat.coordinates) {
+    mapContainer.src = `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${cat.coordinates.lat},${cat.coordinates.lng}`;
+  }
   modal.style.display = 'block';
 };
 
@@ -106,9 +108,11 @@ const catData = (id) => {
 };
 
 // add event listener for modal's close button
-document.getElementById('closeButton').addEventListener('click', (evt) => {
-  modal.style.display = 'none';
-});
+if (document.getElementById('closeButton')) {
+  document.getElementById('closeButton').addEventListener('click', (evt) => {
+    modal.style.display = 'none';
+  });
+}
 
 if (document.getElementById('submitForm')) {
   document.getElementById('submitForm').addEventListener('click', (evt) => {
@@ -119,7 +123,8 @@ if (document.getElementById('submitForm')) {
 }
 
 // ** fetch picArray
-fetch('http://localhost:3000/api/cats')
+if (container) {
+  fetch('http://localhost:3000/api/cats')
   .then((res) => {
     return res.json();
   })
@@ -129,4 +134,6 @@ fetch('http://localhost:3000/api/cats')
     createSelect(pictureData);
   })
   .catch((e) => console.log(e));
+}
+
 
