@@ -19,8 +19,8 @@ exports.list_all_cats = function(req, res) {
 };
 
 exports.post_cat = function(req, res) {
-  console.log(req.body);
-  console.log(req.file.filename);
+  console.log('adding cat ' + req.body.title);
+  console.log(req.file);
   /* const newCat = {
      id: 6,
      title: req.body.title,

@@ -2,20 +2,21 @@
 
 const multer = require('multer');
 const path = require('path');
+const sharp = require('sharp');
+const MyStorage = require('../multer/MyStorage.js');
 
 module.exports = (app) => {
   const catController = require('../controllers/catController');
 
   // Multer for image upload
-  const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, './uploads');
-    },
+  const storage = MyStorage({
+    destination: (req, file, cb) => cb(null, 'uploads'),
     filename: (req, file, cb) => {
-      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+      const name = 'Cat-' + Date.now() + path.extname(file.originalname);
+      cb(null, name);
     },
   });
-  const upload = multer({storage: storage});
+  const upload = multer({ storage: storage });
 
   // Routes
   app.route('/api/cats')
@@ -24,3 +25,11 @@ module.exports = (app) => {
   app.route('/api/upload')
     .post([upload.single('file'), catController.post_cat]);
 };
+
+/* app.route('/api/upload')
+    .post(function(req, res) {
+      upload(req, res, function(err) {
+        console.log(req.body);
+        catController.post_cat(res.req, res);
+      })
+    }); */
