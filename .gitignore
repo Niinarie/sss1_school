@@ -1,0 +1,6 @@
+node_modules/
+apikey.json
+.eslintrc.json
+data/
+public/main.json
+uploads/
