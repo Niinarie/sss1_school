@@ -76,7 +76,7 @@ const fillCards = (array) => {
 
      // Add event listener for details view -button
      viewButton.addEventListener('click', (evt) => {
-      displayModal(el.id);
+      displayModal(el._id);
     });
   });
 };
@@ -103,7 +103,7 @@ const displayModal = (id) => {
 
 // Get data for cat by id from array
 const catData = (id) => {
-  const cat = pictureData.find((pic) => pic.id == id);
+  const cat = pictureData.find((pic) => pic._id == id);
   return cat;
 };
 
