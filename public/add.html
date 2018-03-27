@@ -6,14 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>SSS1</title>
-  <link rel="stylesheet" type="text/css" href="lib/style.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 
 <body>
   <ul class="nav">
     <li class="nav__item">
-      <a class="nav__link active" href="#">Cat collection</a>
+      <a class="nav__link" href="index.html">View</a>
+    </li>
+    <li class="nav__item">
+      <a class="nav__link active" href="">Add</a>
     </li>
     <li class="nav__item">
       <select id="categorySelect">
@@ -22,7 +25,23 @@
     </li>
   </ul>
 
-  <div id="cards" class="cards"></div>
+  <div id="form" class="form center">
+    <form id="addForm" action="" method="post">
+      <label for="title">Title:</label><br/> 
+      <input type="text" name="title"><br/>
+
+      <label for="category">Category:</label><br/>
+      <input type="text" name="category"><br/>
+
+      <label for="details">Details</label><br/>
+      <input type="text" name="details"><br/>
+
+      <label for="image">Image:</label><br/>
+      <input type="file" name="file">
+
+      <button type="submit" id="submitForm" class="btn center" value="Submit">Submit</button>
+    </form>
+  </div>
 
   <!-- MODAL -->
   <div class="modal" id="catModal">
@@ -49,8 +68,7 @@
     </div>
 
   </div>
-  <script src="./lib/moment.js"></script>
-  <script src="./lib/main.js"></script>
+  <script src="./main.js"></script>
 </body>
 
 </html>
