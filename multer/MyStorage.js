@@ -33,6 +33,7 @@ MyStorage.prototype._handleFile = function _handleFile (req, file, cb) {
   })
 }
 
+
 MyStorage.prototype._removeFile = function _removeFile (req, file, cb) {
   fs.unlink(file.path, cb)
 }
