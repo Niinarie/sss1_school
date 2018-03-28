@@ -1,4 +1,3 @@
-
 export function getCats() {
   console.log('cats');
 }

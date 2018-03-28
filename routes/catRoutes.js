@@ -3,7 +3,7 @@
 const multer = require('multer');
 const path = require('path');
 const sharp = require('sharp');
-const MyStorage = require('../multer/MyStorage.js');
+const MyStorage = require('../helpers/MyStorage');
 
 module.exports = (app) => {
   const catController = require('../controllers/catController');
@@ -21,11 +21,3 @@ module.exports = (app) => {
   app.route('/api/upload')
     .post([upload.single('file'), catController.post_cat]);
 };
-
-/* app.route('/api/upload')
-    .post(function(req, res) {
-      upload(req, res, function(err) {
-        console.log(req.body);
-        catController.post_cat(res.req, res);
-      })
-    }); */
