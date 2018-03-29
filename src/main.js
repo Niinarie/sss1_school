@@ -127,6 +127,7 @@ if (document.getElementById('closeButton')) {
   });
 }
 
+// submit form
 if (document.getElementById('submitForm')) {
   document.getElementById('submitForm').addEventListener('click', (evt) => {
     evt.preventDefault();

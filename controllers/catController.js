@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const Cat = mongoose.model('Cat');
+const exif = require('../helpers/exif');
 
 exports.list_all_cats = function(req, res) {
   Cat.find(function(err, cats) {
@@ -11,7 +12,7 @@ exports.list_all_cats = function(req, res) {
 };
 
 exports.post_cat = function(req, res) {
-  console.log('adding cat ' + req.body.title);
+  const exifData = exif.getExif('uploads/'+ req.file.path);
   req.body.thumbnail = '250_' + req.file.path;
   req.body.image = '500_' + req.file.path;
   req.body.original = req.file.path;
