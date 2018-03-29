@@ -7,7 +7,7 @@ const CatSchema = new Schema({
   title: String,
   details: String,
   category: String,
-  time: Number,
+  time: Date,
   coordinates: {
     lat: Number,
     lng: Number,

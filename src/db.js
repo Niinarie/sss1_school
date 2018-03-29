@@ -1,4 +1,3 @@
-
 export function getCats() {
   console.log('cats');
 }
@@ -10,6 +9,10 @@ export function addCat(cat) {
     body: cat,
   }).then((res) => {
     return res.json();
+  }).then(()=> {
+    document.getElementById('form').innerHTML = `
+      Cat submitted successfully!
+    `;
   })
   .catch((error) => console.error('Error:', error));
   console.log('new cat added');

@@ -1,8 +1,6 @@
 'use strict';
-import {addCat} from './db';
+import { addCat } from './db';
 const moment = require('moment');
-
-const apiKey = 'AIzaSyBcgiaMjSFZHfSQkET1QYXH_9ynJvskptY';
 
 const container = document.getElementById('cards');
 const mapContainer = document.getElementById('mapContainer');
@@ -46,7 +44,7 @@ const fillCards = (array) => {
     element.classList.add('card');
 
     const picture = document.createElement('img');
-    picture.src = 'http://localhost:3000/'+el.thumbnail;
+    picture.src = 'http://localhost:3000/' + el.thumbnail;
     picture.classList.add('card-img-top');
 
     const body = document.createElement('div');
@@ -74,8 +72,8 @@ const fillCards = (array) => {
 
     container.appendChild(element);
 
-     // Add event listener for details view -button
-     viewButton.addEventListener('click', (evt) => {
+    // Add event listener for details view -button
+    viewButton.addEventListener('click', (evt) => {
       displayModal(el._id);
     });
   });
@@ -90,15 +88,30 @@ const modalDetails = document.getElementById('modalDetails');
 
 // Update modal data with current cat
 const displayModal = (id) => {
+  mapContainer.style.display = 'none';
   const cat = catData(id);
+  console.log(cat);
   modalTitle.innerHTML = cat.title;
   modalPic.src = 'http://localhost:3000/' + cat.image;
   modalDate.innerHTML = moment(cat.time).format('MMM Do YYYY');
   modalDetails.innerHTML = `<h4>Details:</h4><p>${cat.details}</p>`;
   if (cat.coordinates) {
-    mapContainer.src = `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${cat.coordinates.lat},${cat.coordinates.lng}`;
+    mapContainer.style.display = 'block';
+    initMap(cat.coordinates);
   }
   modal.style.display = 'block';
+};
+
+// google maps
+const initMap = (coords) => {
+  const map = new google.maps.Map(document.getElementById('mapContainer'), {
+    zoom: 9,
+    center: coords,
+  });
+  const marker = new google.maps.Marker({
+    position: coords,
+    map: map,
+  });
 };
 
 // Get data for cat by id from array
@@ -125,15 +138,15 @@ if (document.getElementById('submitForm')) {
 // ** fetch picArray
 if (container) {
   fetch('http://localhost:3000/api/cats')
-  .then((res) => {
-    return res.json();
-  })
-  .then((data) => {
-    pictureData = data;
-    fillCards(pictureData);
-    createSelect(pictureData);
-  })
-  .catch((e) => console.log(e));
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      pictureData = data;
+      fillCards(pictureData);
+      createSelect(pictureData);
+    })
+    .catch((e) => console.log(e));
 }
 
 

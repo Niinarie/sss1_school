@@ -2,55 +2,55 @@ const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
 
-function getDestination (req, file, cb) {
-  cb(null, '/dev/null')
+function getDestination(req, file, cb) {
+  cb(null, '/dev/null');
 }
 
-function getFilename (req, file, cb) {
+function getFilename(req, file, cb) {
   const name = 'file-' + Date.now() + path.extname(file.originalname);
   cb(null, name);
 }
 
-function MyStorage (opts) {
+function MyStorage(opts) {
   this.getDestination = (opts.destination || getDestination),
-  this.getFilename = (opts.filename || getFilename)
+    this.getFilename = (opts.filename || getFilename);
 }
 
-MyStorage.prototype._handleFile = function _handleFile (req, file, cb) {
-  this.getDestination(req, file, function (err, path) {
-    if (err) return cb(err)
+MyStorage.prototype._handleFile = function _handleFile(req, file, cb) {
+  this.getDestination(req, file, function(err, path) {
+    if (err) return cb(err);
 
     const name = Date.now() + file.originalname;
-    var outStream = fs.createWriteStream(path + '/' +name)
+    const outStream = fs.createWriteStream(path + '/' + name)
 
-    file.stream.pipe(outStream)
-    outStream.on('error', cb)
-    outStream.on('finish', function () {
-      //create thumbnail
+    file.stream.pipe(outStream);
+    outStream.on('error', cb);
+    outStream.on('finish', function() {
+      // create thumbnail
       sharp(path + '/' + name)
-      .resize(250, 250)
-      .toFile(path + '/250_'+ name, (err, info) => {
-        if (err) console.log(err);
-      });
-      //create medium
+        .resize(250, 250)
+        .toFile(path + '/250_' + name, (err, info) => {
+          if (err) console.log(err);
+        });
+      // create medium
       sharp(path + '/' + name)
-      .resize(500, null)
-      .toFile(path + '/500_'+ name, (err, info) => {
-        if (err) console.log(err);
-      });
+        .resize(500, null)
+        .toFile(path + '/500_' + name, (err, info) => {
+          if (err) console.log(err);
+        });
 
       cb(null, {
         path: name,
-        size: outStream.bytesWritten
-      })
-    })
-  })
-}
+        size: outStream.bytesWritten,
+      });
+    });
+  });
+};
 
-MyStorage.prototype._removeFile = function _removeFile (req, file, cb) {
-  fs.unlink(file.path, cb)
-}
+MyStorage.prototype._removeFile = function _removeFile(req, file, cb) {
+  fs.unlink(file.path, cb);
+};
 
-module.exports = function (opts) {
-  return new MyStorage(opts)
-}
+module.exports = function(opts) {
+  return new MyStorage(opts);
+};

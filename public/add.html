@@ -35,40 +35,65 @@
 
       <label for="details">Details</label><br/>
       <input type="text" name="details"><br/>
+      
+      <label for="time">Date of birth:</label>
+      <input type="date" name="time">
 
       <label for="image">Image:</label><br/>
       <input type="file" name="file">
 
+      <label for="coords">Coordinates:</label><br/>
+      <div id="mapCoords" class="map__coords"></div>
+
       <button type="submit" id="submitForm" class="btn center" value="Submit">Submit</button>
+      <input type="text" id="lat" name="lat" hidden>
+      <input type="text" id="lng" name="lng" hidden>
     </form>
   </div>
 
-  <!-- MODAL -->
-  <div class="modal" id="catModal">
-    <div class="modal__content">
-      <!-- Header -->
-      <div class="modal__header">
-        <h3 class="modal__title" id="modalTitle">Modal title</h3>
-        <h4 id="modalDate"></h4>
-      </div>
-      <!-- Body -->
-      <div class="modal__body">
-        <div class="modal__pic">
-          <img src="" id="modalPic" alt="medium picture" />
-        </div>
-        <div class="modal__side">
-            <iframe id="mapContainer" class="map" width="100%" height="200" frameborder="0" style="border:0" src=""></iframe>
-            <div id="modalDetails" class="modal__details"></div>
-        </div>
-      </div>
-      <!-- Footer -->
-      <div class="modal__footer">
-        <button type="button" id="closeButton" class="btn center">Close</button>
-      </div>
-    </div>
-
-  </div>
   <script src="./main.js"></script>
+  <script>
+    var coords = {lat: 60.220622, lng: 24.802490};
+    var latField = document.getElementById('lat');
+    var lngField = document.getElementById('lng');
+    latField.value = coords.lat;
+    lngField.value= coords.lng;
+
+    var initCoords = () => {
+
+    var map = new google.maps.Map(document.getElementById('mapCoords'), {
+      zoom: 8,
+      center: coords,
+    });
+    var updateTimeout = null;
+
+    var marker = new google.maps.Marker({
+          position: coords,
+          map: map,
+          title: 'Cat location'
+    });
+
+    google.maps.event.addListener(map, 'click', function(event) {
+      updateTimeout = setTimeout(function() {
+        console.log('click');
+        const lat = event.latLng.lat();
+        const lng = event.latLng.lng();
+        
+        latField.value = lat;
+        lngField.value = lng;
+
+        marker.setPosition({lat, lng});
+      }, 200);
+    });
+
+    google.maps.event.addListener(map, 'dblclick', function(event) {
+      clearTimeout(update_timeout);
+    });
+  };
+  </script>
+  <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIMmlrlt_CMZicjhBoSwvnzranTS02Ci8&callback=initCoords">
+</script>
 </body>
 
 </html>

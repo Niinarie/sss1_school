@@ -1,20 +1,18 @@
-/* eslint-disable */
-const express = require('express'),
-app = express(),
-mongoose = require('mongoose'),
-Cat = require('./models/catModel'),
-PORT = 3000;
+const express = require('express');
+const app = express();
+const mongoose = require('mongoose');
+const Cat = require('./models/catModel');
+const PORT = 3000;
 
 app.use(express.static('public'));
 app.use(express.static('uploads'));
 
-var routes = require('./routes/catRoutes'); //importing route
-routes(app); //register the route
+const routes = require('./routes/catRoutes');
+routes(app);
 
-mongoose.connect('mongodb://localhost:27017/test').then(() => {
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/test`).then(() => {
   app.listen(PORT);
   console.log('Connected successfully, server listening on port ' + PORT);
-}, err => {
+}, (err) => {
   console.log('Error connecting: ' + err);
-}); 
-
+});

@@ -49,8 +49,7 @@ h4 {
 .card img {
   width: 100%;
   height: auto;
-  -webkit-filter: grayscale(100%) brightness(120%) sepia(100%) hue-rotate(70deg) saturate(100%) contrast(0.8);
-  filter: grayscale(100%) brightness(120%) sepia(100%) hue-rotate(70deg) saturate(100%) contrast(0.8);
+ 
 }
 .card-body {
   padding: 0.8em;
@@ -84,6 +83,17 @@ h4 {
   display: inline-block;
   margin: 1em 0 0.5em 0;
 }
+.map {
+  display: none;
+  width: 100%;
+  height: 200px;
+}
+.map__coords {
+  display: block;
+  width: 100%;
+  height: 400px;
+  margin-bottom: 1em;
+}
 
 .modal {
   display: none;
@@ -113,7 +123,6 @@ h4 {
 }
 
 .modal__details {
-  margin-top: 200px;
   padding: 0 1em;
 }
 
@@ -130,7 +139,7 @@ h4 {
 
 .modal__pic img {
   display: block;
-  max-width: 100%;
+  width: 100%;
   height: auto;
   margin: 0 auto;
 }
@@ -143,12 +152,6 @@ h4 {
 .modal__footer {
   padding: 0.5em 1em;
   background-color: rgb(77, 175, 152);
-}
-
-.map {
-  position: absolute;
-  top: 0;
-  right: 0;
 }
 
 .nav {
