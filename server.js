@@ -2,10 +2,13 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const Cat = require('./models/catModel');
+const bodyParser = require('body-parser');
 const PORT = 3000;
 
 app.use(express.static('public'));
 app.use(express.static('uploads'));
+app.use(bodyParser.json());
+
 
 const routes = require('./routes/catRoutes');
 routes(app);

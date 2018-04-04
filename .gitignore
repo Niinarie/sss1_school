@@ -4,3 +4,4 @@ apikey.json
 data/
 public/main.json
 uploads/
+.env

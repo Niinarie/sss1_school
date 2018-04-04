@@ -6,8 +6,9 @@ const CatSchema = new Schema({
   id: Number,
   title: String,
   details: String,
-  category: String,
+  breed: String,
   time: Date,
+  sex: String,
   coordinates: {
     lat: Number,
     lng: Number,

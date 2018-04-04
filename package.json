@@ -7,9 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.production.config.js --mode production",
     "watch": "webpack-dev-server --hot --progress --colors --mode development",
-    "server": "supervisor -r dotenv/config -w server.js, controllers/, models/, routes/ server.js"
+    "server": "node -r dotenv/config server.js"
   },
   "dependencies": {
+    "body-parser": "^1.18.2",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "mongoose": "^5.0.11",

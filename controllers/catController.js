@@ -2,17 +2,16 @@
 
 const mongoose = require('mongoose');
 const Cat = mongoose.model('Cat');
-const exif = require('../helpers/exif');
+const fileHelper = require('../helpers/fileHelper.js');
 
-exports.list_all_cats = function(req, res) {
-  Cat.find(function(err, cats) {
+exports.list_all_cats = (req, res) => {
+  Cat.find((err, cats) => {
     if (err) res.send(err);
     res.json(cats);
   });
 };
 
-exports.post_cat = function(req, res) {
-  const exifData = exif.getExif('uploads/'+ req.file.path);
+exports.post_cat = (req, res) => {
   req.body.thumbnail = '250_' + req.file.path;
   req.body.image = '500_' + req.file.path;
   req.body.original = req.file.path;
@@ -22,10 +21,48 @@ exports.post_cat = function(req, res) {
   };
 
   const newCat = new Cat(req.body);
-  newCat.save(function(err, cat) {
+  newCat.save((err, cat) => {
     if (err) res.send(err);
-    console.log(cat);
     res.json(cat);
+  });
+};
+
+exports.delete_cat = (req, res) => {
+  Cat.findByIdAndRemove({_id: req.params.id}, (err, cat) => {
+    if (err) console.log(err);
+    console.log(cat);
+    fileHelper.deleteFiles([cat.thumbnail, cat.image, cat.original]);
+  });
+};
+
+exports.get_cat = (req, res) => {
+  Cat.findById(req.params.id, (err, cat) => {
+    if (err) console.log(err);
+    res.json(cat);
+  });
+};
+
+exports.update_cat = (req, res) => {
+  let imageUpdated = false;
+  if (req.file) {
+    imageUpdated = true;
+    req.body.thumbnail = '250_' + req.file.path;
+    req.body.image = '500_' + req.file.path;
+    req.body.original = req.file.path;
+  }
+  const id = req.params.id;
+  const update = req.body;
+  req.body.coordinates = {
+    lat: req.body.lat,
+    lng: req.body.lng,
+  };
+
+  Cat.findOneAndUpdate({_id: id}, update, (err, doc) => {
+    if (err) console.log(err);
+    if (imageUpdated) {
+      fileHelper.deleteFiles([doc.thumbnail, doc.image, doc.original]);
+    }
+    return res.json('success');
   });
 };
 
