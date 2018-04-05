@@ -5,3 +5,5 @@ data/
 public/main.json
 uploads/
 .env
+key.pem
+cert.pem
