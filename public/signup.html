@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>SSS1</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIMmlrlt_CMZicjhBoSwvnzranTS02Ci8"></script>
+</head>
+
+<body>
+  <ul class="nav">
+    <li class="nav__item">
+      <a class="nav__link" href="index.html">View</a>
+    </li>
+    <li class="nav__item">
+      <a class="nav__link active" href="">Add</a>
+    </li>
+    <div id="auth"></div>
+  </ul>
+
+  <div id="form" class="form center">
+    <form id="signupForm" action="/signup" method="post">
+      <label for="username">Username:</label><br/>
+      <input type="text" name="username" id="username" placeholder="Username"><br/>
+
+      <label for="password">Password:</label><br/>
+      <input type="password" name="password" id="password" placeholder="Password"><br/><br/>
+
+      <button class="btn center" id="signupButton">Sign up</button>
+    </form>
+  </div>
+
+  <script src="./main.js"></script>
+
+</body>
+
+</html>

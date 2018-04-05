@@ -30,6 +30,14 @@ h4 {
   background-color: rgb(179, 250, 233);
 }
 
+.btn--inline {
+  display: inline-block;
+}
+
+.inline {
+  display: inline-block;
+}
+
 .cards {
   display: flex;
   flex-direction: row;
@@ -159,6 +167,7 @@ h4 {
   padding: 0;
   width: 100%;
   max-width: 100%;
+  min-height: 80px;
   background-color: rgb(77, 175, 152);
   list-style: none;
   display: flex;
@@ -182,7 +191,7 @@ h4 {
   text-decoration: underline;
 }
 
-select {
+select, #search {
   padding: 0.5em;
   font-size: 1em;
 }

@@ -8,7 +8,8 @@
   <title>SSS1</title>
   <link rel="stylesheet" type="text/css" href="style.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIMmlrlt_CMZicjhBoSwvnzranTS02Ci8"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIMmlrlt_CMZicjhBoSwvnzranTS02Ci8">
+</script>
 </head>
 
 <body>
@@ -23,39 +24,39 @@
   </ul>
 
   <div id="form" class="form center">
-    <form id="addForm" action="" method="post">
-      <label for="title">Name:</label><br/> 
-      <input type="text" name="title"><br/>
+    <img src="" id="updateImage" alt="" class="center">
+    <form id="updateForm" action="" method="post">
+      <label for="title">Title:</label><br/> 
+      <input type="text" name="title" id="inputTitle"><br/>
 
       <label for="breed">Breed:</label><br/>
-      <input type="text" name="breed"><br/>
+      <input type="text" name="breed" id="inputBreed"><br/>
 
       <label for="sex">Sex:</label><br/>
-      <select name="sex">
-        <option value="female" selected>Female</option>
+      <select name="sex" id="inputSex">
+        <option value="female">Female</option>
         <option value="male">Male</option>
       </select><br/>
 
       <label for="details">Details</label><br/>
-      <input type="text" name="details"><br/>
+      <input type="text" name="details" id="inputDetails"><br/>
       
       <label for="time">Date of birth:</label>
-      <input type="date" name="time">
+      <input type="date" name="time" id="inputTime">
 
       <label for="image">Image:</label><br/>
       <input type="file" name="file">
 
       <label for="coords">Coordinates:</label><br/>
-      <div id="mapCoords" class="map__coords"></div>
+      <div id="mapUpdate" class="map__coords"></div>
 
-      <button type="submit" id="submitForm" class="btn center" value="Submit">Submit</button>
+      <button type="submit" id="updateFormButton" class="btn center" value="Submit">Submit</button>
       <input type="text" id="lat" name="lat" hidden>
       <input type="text" id="lng" name="lng" hidden>
     </form>
   </div>
 
   <script src="./main.js"></script>
-
 </body>
 
 </html>

@@ -1,25 +1,28 @@
 'use strict';
-import { addCat } from './db';
+import * as db from './db';
+import * as map from './map';
 const moment = require('moment');
 
 const container = document.getElementById('cards');
 const mapContainer = document.getElementById('mapContainer');
+const authContainer = document.getElementById('auth');
+const searchContainer = document.getElementById('searchCards');
 let pictureData = [];
 
 // create select menu for categories
 const createSelect = (array) => {
   const select = document.getElementById('categorySelect');
-  const categories = [];
+  const breeds = [];
   array.map((item) => {
-    if (!categories.includes(item.category)) {
-      categories.push(item.category);
+    if (!breeds.includes(item.breed)) {
+      breeds.push(item.breed);
     }
   });
 
-  categories.map((cat) => {
+  breeds.map((br) => {
     const option = document.createElement('option');
-    option.text = cat;
-    option.value = cat;
+    option.text = br;
+    option.value = br;
     select.add(option);
   });
 
@@ -29,30 +32,36 @@ const createSelect = (array) => {
   });
 };
 
-const filterByCategory = (cat, array) => {
+// filter cats by breed
+const filterByCategory = (breed, array) => {
   container.innerHTML = '';
-  if (cat !== 'All') {
-    array = array.filter((item) => item.category == cat);
+  if (breed !== 'All') {
+    array = array.filter((item) => item.breed == breed);
   }
   fillCards(array);
 };
 
 // Create the cards
-const fillCards = (array) => {
+const fillCards = (array, div) => {
   array.forEach((el) => {
     const element = document.createElement('div');
+    element.setAttribute('id', 'card-' + el._id);
     element.classList.add('card');
 
     const picture = document.createElement('img');
-    picture.src = 'http://localhost:3000/' + el.thumbnail;
+    picture.src = el.thumbnail;
     picture.classList.add('card-img-top');
 
     const body = document.createElement('div');
     body.classList.add('card-body');
 
-    const header = document.createElement('h2');
+    const header = document.createElement('div');
     header.classList.add('card-title');
-    header.appendChild(document.createTextNode(el.title));
+    {
+      el.sex == 'female' ?
+        header.innerHTML = `<h2>${el.title} <b>&#9792;</b></h2>` :
+        header.innerHTML = `<h2>${el.title} <b>&#9794;</b></h2>`;
+    }
     const description = document.createElement('p');
     description.classList.add('card-text');
     description.appendChild(document.createTextNode(el.details));
@@ -70,7 +79,7 @@ const fillCards = (array) => {
     element.appendChild(body);
     element.appendChild(footer);
 
-    container.appendChild(element);
+    div.appendChild(element);
 
     // Add event listener for details view -button
     viewButton.addEventListener('click', (evt) => {
@@ -85,39 +94,80 @@ const modalTitle = document.getElementById('modalTitle');
 const modalPic = document.getElementById('modalPic');
 const modalDate = document.getElementById('modalDate');
 const modalDetails = document.getElementById('modalDetails');
+const deleteButton = document.getElementById('deleteButton');
+const updateButton = document.getElementById('updateButton');
 
 // Update modal data with current cat
 const displayModal = (id) => {
   mapContainer.style.display = 'none';
   const cat = catData(id);
-  console.log(cat);
   modalTitle.innerHTML = cat.title;
-  modalPic.src = 'http://localhost:3000/' + cat.image;
+  modalPic.src = cat.image;
   modalDate.innerHTML = moment(cat.time).format('MMM Do YYYY');
   modalDetails.innerHTML = `<h4>Details:</h4><p>${cat.details}</p>`;
   if (cat.coordinates) {
     mapContainer.style.display = 'block';
-    initMap(cat.coordinates);
+    map.initMap(cat.coordinates);
   }
-  modal.style.display = 'block';
-};
+  deleteButton.addEventListener('click', (evt) => {
+    db.deleteCat(id)
+      .then((res) => {
+        removeById(id);
+        modal.style.display = 'none';
+      })
+      .catch((err) => console.log(err));
+  });
 
-// google maps
-const initMap = (coords) => {
-  const map = new google.maps.Map(document.getElementById('mapContainer'), {
-    zoom: 9,
-    center: coords,
+  updateButton.addEventListener('click', (evt) => {
+    window.location.href = 'update.html?id=' + id;
   });
-  const marker = new google.maps.Marker({
-    position: coords,
-    map: map,
-  });
+  modal.style.display = 'block';
 };
 
 // Get data for cat by id from array
 const catData = (id) => {
   const cat = pictureData.find((pic) => pic._id == id);
   return cat;
+};
+
+// remove cat card by id after deleting cat
+const removeById = (id) => {
+  const elem = document.getElementById('card-' + id);
+  elem.parentNode.removeChild(elem);
+  pictureData.filter((cat) => cat._id != id);
+};
+
+// get all cat data
+const init = () => {
+  db.getCats()
+    .then((data) => {
+      pictureData = data;
+      fillCards(pictureData, container);
+      createSelect(pictureData);
+    })
+    .catch((e) => console.log(e));
+};
+
+// method for initing updateform
+const initUpdate = (id) => {
+  db.getCat(id)
+    .then((res) => {
+      document.getElementById('updateImage').src = res.thumbnail;
+      document.getElementById('inputTitle').value = res.title;
+      document.getElementById('inputBreed').value = res.breed;
+      document.getElementById('inputDetails').value = res.details;
+      document.getElementById('inputSex').value = res.sex;
+      document.getElementById('inputTime').value = moment(res.time).format('YYYY-MM-DD');
+
+      map.initUpdateMap(res.coordinates);
+
+      document.getElementById('updateFormButton').addEventListener('click', (evt) => {
+        evt.preventDefault();
+        const formData = new FormData(document.getElementById('updateForm'));
+        db.updateCat(id, formData);
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 // add event listener for modal's close button
@@ -132,22 +182,81 @@ if (document.getElementById('submitForm')) {
   document.getElementById('submitForm').addEventListener('click', (evt) => {
     evt.preventDefault();
     const formData = new FormData(document.getElementById('addForm'));
-    addCat(formData);
+    db.addCat(formData);
   });
 }
 
-// ** fetch picArray
-if (container) {
-  fetch('http://localhost:3000/api/cats')
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      pictureData = data;
-      fillCards(pictureData);
-      createSelect(pictureData);
-    })
-    .catch((e) => console.log(e));
+if (document.getElementById('searchButton')) {
+  document.getElementById('searchButton').addEventListener('click', (evt) => {
+    evt.preventDefault();
+    const search = document.getElementById('search');
+    console.log(search.value);
+    if (search.value.length > 3) {
+      window.location.href= 'search.html?text='+search.value;
+    } else {
+      console.log('Too short seacrhword');
+    }
+  });
 }
 
+// Init app if on front page
+if (container) {
+  init();
+}
 
+if (searchContainer) {
+  const urlString = window.location.href;
+  const url = new URL(urlString);
+  const searchWord = url.searchParams.get('text');
+  db.findCats(searchWord)
+  .then((res) => {
+    if (res.length) {
+      pictureData = res;
+      fillCards(pictureData, searchContainer);
+      createSelect(pictureData);
+    } else {
+      searchContainer.innerHTML = `
+      <p>No results with searchword</p>`;
+    }
+  })
+  .catch((err) => console.log(err));
+}
+
+if (sessionStorage.getItem('loggedin') == null) {
+  const login = document.createElement('li');
+  login.innerHTML = `
+  <li class="nav__item inline">
+  <a class="nav__link" href="login.html">Login</a>
+  </li>
+  <li class="nav__item inline">
+    <a class="nav__link" href="signup.html">Sign up</a>
+  </li>
+  <li class="nav__item inline">
+  <a class="nav__link" href="logout">Log out</a>
+  </li>`;
+  authContainer.appendChild(login);
+}
+if (sessionStorage.getItem('loggedin')) {
+  const logout = document.createElement('li');
+  logout.innerHTML = `
+  <li class="nav__item">
+    <a class="nav__link" href="logout">Log out</a>
+  </li>`;
+  authContainer.appendChild(logout);
+}
+// Init add map if on add page
+if (document.getElementById('mapCoords')) {
+  map.initAddMap();
+}
+
+// Init updateform with existing data after extracting cat id from url, 
+// if on update page
+if (document.getElementById('updateForm')) {
+  const urlString = window.location.href;
+  const url = new URL(urlString);
+  const id = url.searchParams.get('id');
+  if (id) {
+    console.log(id);
+    initUpdate(id);
+  }
+}

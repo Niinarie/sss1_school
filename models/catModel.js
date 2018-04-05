@@ -2,12 +2,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const CatSchema = new Schema({
+const catSchema = new Schema({
   id: Number,
   title: String,
   details: String,
-  category: String,
+  breed: String,
   time: Date,
+  sex: String,
   coordinates: {
     lat: Number,
     lng: Number,
@@ -15,6 +16,9 @@ const CatSchema = new Schema({
   thumbnail: String,
   image: String,
   original: String,
+  user: String,
 }, {collection: 'catdata'});
 
-module.exports = mongoose.model('Cat', CatSchema);
+catSchema.index({title: 'text'});
+
+module.exports = mongoose.model('Cat', catSchema);
