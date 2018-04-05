@@ -9,8 +9,8 @@ const fs = require('fs');
 const passport = require('passport');
 const session = require('express-session');
 
-const sslkey = fs.readFileSync('ssl-key.pem');
-const sslcert = fs.readFileSync('ssl-cert.pem');
+const sslkey = fs.readFileSync('key.pem');
+const sslcert = fs.readFileSync('cert.pem');
 
 const options = {
   key: sslkey,

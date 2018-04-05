@@ -62,3 +62,19 @@ module.exports = (app, passport) => {
     res.send('Hello Secure World!');
   });
 };
+
+ /*
+  app.route('/api/upload')
+  .post(upload.single('file'), function(req, res, next) {
+    req.body.original = req.file.path;
+    return new Promise((resolve, reject) => {
+      const thumbName = '250_' + req.file.path;
+      sharp('uploads/' + req.file.path)
+      .resize(250, 250)
+      .toFile('uploads/' + thumbName, (err, info) => {
+        if (err) console.log(err);
+        info.thumbnail = thumbName;
+        resolve(info);
+      });
+    })
+  });*/
