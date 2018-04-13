@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const cookieParser = require('cookie-parser');
+const flash = require('express-flash');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const PORT = 3000;
@@ -8,9 +10,18 @@ const https = require('https');
 const fs = require('fs');
 const passport = require('passport');
 const session = require('express-session');
+const helmet = require('helmet');
+
 
 const sslkey = fs.readFileSync('key.pem');
 const sslcert = fs.readFileSync('cert.pem');
+
+app.use(cookieParser('secret'));
+
+app.set('view engine', 'pug');
+app.set('views', './views');
+
+app.use(helmet());
 
 const options = {
   key: sslkey,
@@ -19,10 +30,12 @@ const options = {
 
 require('./helpers/passport')(passport);
 
-app.use(express.static('public'));
+// app.use(express.static('public'));
 app.use(express.static('uploads'));
-app.use(bodyParser.json());
+app.use(express.static('utils'));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
 
 app.use(session({
   name: 'session',
@@ -33,8 +46,23 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
+
+// Custom flash middleware -- from Ethan Brown's book, 'Web Development with Node & Express'
+app.use((req, res, next) => {
+    // if there's a flash message in the session request, make it available in the response, then delete it
+    res.locals.sessionFlash = req.session.sessionFlash;
+    delete req.session.sessionFlash;
+    next();
+});
+
 
 require('./routes/catRoutes')(app, passport);
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.render('error', {message: err.message, user: req.user});
+});
 
 mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/test`).then(() => {
   http.createServer((req, res) => {
@@ -46,3 +74,5 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${proc
 }, (err) => {
   console.log('Error connecting: ' + err);
 });
+
+

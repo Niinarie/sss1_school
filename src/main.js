@@ -119,11 +119,7 @@ const displayModal = (id) => {
   });
 
   updateButton.addEventListener('click', (evt) => {
-<<<<<<< HEAD
     window.location.href = 'update.html?id=' + id;
-=======
-    window.location.href = 'http://localhost:3000/update.html?id=' + id;
->>>>>>> 00b7eb51eb3145d614115c9a4b26f5c6c50e454f
   });
   modal.style.display = 'block';
 };
@@ -137,12 +133,8 @@ const catData = (id) => {
 // remove cat card by id after deleting cat
 const removeById = (id) => {
   const elem = document.getElementById('card-' + id);
-<<<<<<< HEAD
   elem.parentNode.removeChild(elem);
   pictureData.filter((cat) => cat._id != id);
-=======
-  return elem.parentNode.removeChild(elem);
->>>>>>> 00b7eb51eb3145d614115c9a4b26f5c6c50e454f
 };
 
 // get all cat data
@@ -150,11 +142,7 @@ const init = () => {
   db.getCats()
     .then((data) => {
       pictureData = data;
-<<<<<<< HEAD
       fillCards(pictureData, container);
-=======
-      fillCards(pictureData);
->>>>>>> 00b7eb51eb3145d614115c9a4b26f5c6c50e454f
       createSelect(pictureData);
     })
     .catch((e) => console.log(e));
@@ -195,10 +183,14 @@ if (document.getElementById('submitForm')) {
     evt.preventDefault();
     const formData = new FormData(document.getElementById('addForm'));
     db.addCat(formData);
-<<<<<<< HEAD
   });
 }
 
+const submitForm = (evt) => {
+  evt.preventDefault();
+  const formData = new FormData(document.getElementById('addForm'));
+  db.addCat(formData);
+}
 if (document.getElementById('searchButton')) {
   document.getElementById('searchButton').addEventListener('click', (evt) => {
     evt.preventDefault();
@@ -209,15 +201,12 @@ if (document.getElementById('searchButton')) {
     } else {
       console.log('Too short seacrhword');
     }
-=======
->>>>>>> 00b7eb51eb3145d614115c9a4b26f5c6c50e454f
   });
 }
 
 // Init app if on front page
 if (container) {
   init();
-<<<<<<< HEAD
 }
 
 if (searchContainer) {
@@ -260,10 +249,6 @@ if (sessionStorage.getItem('loggedin')) {
   </li>`;
   authContainer.appendChild(logout);
 }
-=======
-}
-
->>>>>>> 00b7eb51eb3145d614115c9a4b26f5c6c50e454f
 // Init add map if on add page
 if (document.getElementById('mapCoords')) {
   map.initAddMap();

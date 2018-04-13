@@ -1,0 +1,12 @@
+doctype html
+html(lang='en')
+  head
+    title CatApp
+    meta(charset='utf-8')
+    link(rel='stylesheet', href='https://localhost:8080/style.css', type='text/css')
+    block scripts
+      script(src='./scripts.js')
+      script(async defer src='https://maps.googleapis.com/maps/api/js?key=AIzaSyAIMmlrlt_CMZicjhBoSwvnzranTS02Ci8')
+  body
+    include navigation.pug
+    block content

@@ -1,0 +1,15 @@
+.modal(id='catModal')
+  .modal__content
+    .modal__header
+      h3(class='modal__title' id='modalTitle')
+      h4(id='modalData')
+      button(id='deleteButton' class='btn' class='btn--inline') Delete
+      button(id='updateButton' class='btn' class='btn--inline') Update
+    .modal__body
+      .modal__pic
+        img(src='' id='modalPic' alt='cats!')
+      .modal__side
+        .map(id='mapContainer')
+        .modal__details(id='modalDetails')
+    .modal__footer
+      button(id='closeButton' class='btn' class='center')

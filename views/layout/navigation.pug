@@ -1,0 +1,9 @@
+navigation
+  ul(class='nav')
+    a(class='nav__link', href='/'): li(class='nav__item') View
+    if user != null
+      a(class='nav__link', href='/add'): li(class='nav__item') Add
+      a(class='nav__link', href='/logout'): li(class='nav__item') Log out
+    else 
+      a(class='nav__link', href='/login'): li(class='nav__item') Log in
+      a(class='nav__link', href='/signup'): li(class='nav__item') Sign up

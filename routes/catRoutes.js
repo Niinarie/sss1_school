@@ -4,6 +4,7 @@ const multer = require('multer');
 const myStorage = require('../helpers/MyStorage.js');
 const sharp = require('sharp');
 const catController = require('../controllers/catController');
+const Cat = require('../models/catModel');
 
 const storage = myStorage({
   destination: (req, file, cb) => cb(null, 'uploads'),
@@ -14,13 +15,35 @@ const isAuthenticated = (req, res, next) => {
   console.log(req.user);
   if (req.user) return next();
   else {
-    return res.status(401).json({
-      error: 'User not authenticated',
-    });
+    return next({message: 'Not authenticated'});
   }
 };
 
 module.exports = (app, passport) => {
+  // pages
+  app.get('/', (req, res, next) => {
+    if (req.user) {
+      Cat.find({user: req.user._id}, (err, cats) => {
+        if (err) return next({message: err});
+        res.render('index', {cats: cats, user: req.user});
+      });
+    } else {
+      return next({message: 'Log in to see your cats'});
+    }
+  });
+
+  app.get('/add', (req, res) => {
+    res.render('add', {user: req.user, expressFlash: req.flash('success')});
+  });
+
+  app.get('/login', (req, res) => {
+    res.render('login', { user: req.user });
+  });
+
+  app.get('/signup', (req, res) => {
+    res.render('signup', { user: req.user });
+  });
+
   // Routes
   app.route('/api/cats')
     .get(catController.list_all_cats);
@@ -41,13 +64,13 @@ module.exports = (app, passport) => {
     .get(catController.find_by_name);
 
   app.post('/login', passport.authenticate('local-login', {
-    successRedirect: 'index.html',
-    failureRedirect: 'login.html',
+    successRedirect: '/',
+    failureRedirect: '/login',
   }));
 
   app.post('/signup', passport.authenticate('local-signup', {
     successRedirect: '/',
-    failureRedirect: 'signup.html',
+    failureRedirect: '/signup',
   }));
 
   app.get('/logout', (req, res) => {
@@ -62,19 +85,3 @@ module.exports = (app, passport) => {
     res.send('Hello Secure World!');
   });
 };
-
- /*
-  app.route('/api/upload')
-  .post(upload.single('file'), function(req, res, next) {
-    req.body.original = req.file.path;
-    return new Promise((resolve, reject) => {
-      const thumbName = '250_' + req.file.path;
-      sharp('uploads/' + req.file.path)
-      .resize(250, 250)
-      .toFile('uploads/' + thumbName, (err, info) => {
-        if (err) console.log(err);
-        info.thumbnail = thumbName;
-        resolve(info);
-      });
-    })
-  });*/

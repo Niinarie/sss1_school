@@ -12,6 +12,7 @@ exports.list_all_cats = (req, res) => {
 };
 
 exports.post_cat = (req, res) => {
+  console.log(req.file);
   req.body.thumbnail = '250_' + req.file.path;
   req.body.image = '500_' + req.file.path;
   req.body.original = req.file.path;
@@ -23,8 +24,8 @@ exports.post_cat = (req, res) => {
 
   const newCat = new Cat(req.body);
   newCat.save((err, cat) => {
-    if (err) res.send(err);
-    res.json(cat);
+    if (err) return next({message: err});
+    res.redirect('/');
   });
 };
 

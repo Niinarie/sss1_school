@@ -1,0 +1,13 @@
+extends layout/layout.pug
+
+block content
+  .form.center
+    form(action='/login', method='POST')
+      label(for='username') Username:
+      input(type='text', name='username')
+
+      label(for='password') Password:
+      input(type='password', name='password')
+      button(class='btn' class='center' type='submit') Login
+
+

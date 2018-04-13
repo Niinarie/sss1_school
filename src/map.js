@@ -12,6 +12,7 @@ export function initMap(coords) {
 
 // Init map on add cat -page
 export function initAddMap() {
+  console.log('init add map');
   const coords = { lat: 60.220622, lng: 24.802490 };
   const latField = document.getElementById('lat');
   const lngField = document.getElementById('lng');

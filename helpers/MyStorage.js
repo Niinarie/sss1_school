@@ -22,7 +22,7 @@ MyStorage.prototype._handleFile = function _handleFile(req, file, cb) {
 
     const name = Date.now() + file.originalname;
     const outStream = fs.createWriteStream(path + '/' + name)
-
+    console.log(name);
     file.stream.pipe(outStream);
     outStream.on('error', cb);
     outStream.on('finish', function() {

@@ -1,0 +1,71 @@
+extends layout/layout.pug
+
+block content
+  .form.center
+    form(id='addForm', enctype='multipart/form-data', action='api/upload' method='POST')
+      label(for='title') Name:
+      input(type='text', name='title')
+
+      label(for='breed') Breed:
+      input(type='text', name='breed')
+
+      label(for='sex') Gender:
+      select(name='sex')
+        option(value='female') Female
+        option(value='male') Male
+      br
+      label(for='details') Details:
+      input(type='text' name='details')
+
+      label(for='time') Date of birth:
+      input(type='date' name='time')
+
+      label(for='image') Image:
+      input(type='file' name='file')
+
+      label(for='coords') Coords:
+      .map__coords(id='mapCoords')
+    
+      input(hidden, type='text', id='lat', name='lat')
+      input(hidden, type='text', id='lng', name='lng')
+
+      button(id='submitForm' class='btn' class='center' type='submit') Submit
+  
+  script.
+    window.onload = () => {
+    console.log('init add map');
+    const coords = { lat: 60.220622, lng: 24.802490 };
+    const latField = document.getElementById('lat');
+    const lngField = document.getElementById('lng');
+    latField.value = coords.lat;
+    lngField.value = coords.lng;
+
+    const map = new google.maps.Map(document.getElementById('mapCoords'), {
+      zoom: 8,
+      center: coords,
+    });
+    let updateTimeout = null;
+
+    const marker = new google.maps.Marker({
+      position: coords,
+      map: map,
+      title: 'Cat location',
+    });
+
+    google.maps.event.addListener(map, 'click', (event) => {
+      updateTimeout = setTimeout(() => {
+        console.log('click');
+        const lat = event.latLng.lat();
+        const lng = event.latLng.lng();
+        latField.value = lat;
+        lngField.value = lng;
+
+        marker.setPosition({ lat, lng });
+      }, 200);
+    });
+
+    google.maps.event.addListener(map, 'dblclick', (event) => {
+      clearTimeout(updateTimeout);
+    });
+    };
+  

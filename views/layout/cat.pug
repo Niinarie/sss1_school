@@ -1,0 +1,11 @@
+.card
+  img(src=cat.thumbnail)
+  .card-body
+    .card-title
+      if cat.sex == 'female'
+        h2 #{cat.title} &#9792;
+      else
+        h2 #{cat.title} &#9794;
+      p(class='card-text')= cat.details
+  .card-footer
+    button(class='btn' data-id=cat._id class='center' onclick='updateModal()') View
