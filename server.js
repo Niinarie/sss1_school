@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
-const flash = require('express-flash');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const PORT = 3000;
@@ -46,16 +45,6 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash());
-
-// Custom flash middleware -- from Ethan Brown's book, 'Web Development with Node & Express'
-app.use((req, res, next) => {
-    // if there's a flash message in the session request, make it available in the response, then delete it
-    res.locals.sessionFlash = req.session.sessionFlash;
-    delete req.session.sessionFlash;
-    next();
-});
-
 
 require('./routes/catRoutes')(app, passport);
 
