@@ -11,7 +11,6 @@ const passport = require('passport');
 const session = require('express-session');
 const helmet = require('helmet');
 
-
 const sslkey = fs.readFileSync('key.pem');
 const sslcert = fs.readFileSync('cert.pem');
 

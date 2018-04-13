@@ -33,7 +33,7 @@ module.exports = (app, passport) => {
   });
 
   app.get('/add', (req, res) => {
-    res.render('add', {user: req.user, expressFlash: req.flash('success')});
+    res.render('add', {user: req.user});
   });
 
   app.get('/login', (req, res) => {
@@ -83,5 +83,10 @@ module.exports = (app, passport) => {
       return res.send(`Hello ${req.user.local.username}!`);
     }
     res.send('Hello Secure World!');
+  });
+
+  app.get('*', (req, res, next) => {
+    res.status(404);
+    return next({message: 'Site not found'});
   });
 };
